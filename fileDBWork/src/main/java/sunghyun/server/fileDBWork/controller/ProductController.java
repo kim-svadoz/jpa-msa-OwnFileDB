@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sunghyun.server.fileDBWork.domain.Product;
+import sunghyun.server.fileDBWork.domain.dto.ProductRequestDto;
+import sunghyun.server.fileDBWork.domain.dto.ProductResponseDto;
 import sunghyun.server.fileDBWork.service.ProductService;
 
 import java.util.List;
@@ -18,22 +20,27 @@ public class ProductController {
     private final ProductService productService;
 
     /*
-    전체 목록 조회
+     * 전체목록 조회
+     */
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.findAll();
+    public ResponseEntity<List<Product>> getProductsByPagination(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) {
+        return productService.getProductListPage(pageNo, pageSize);
     }
-    */
 
-    // /products/1
+    /*
+     * 제품 조회
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
         return productService.findById(id);
     }
 
+    /*
+     * 목록 추가
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto product) {
         return productService.create(product);
     }
 }

@@ -16,14 +16,11 @@ import javax.persistence.*;
 @Entity
 @Builder
 @Accessors(chain = true)
-@Table(name="Product")
 public class Product {
 
     @Id
     @GeneratedValue
-    @Column(name = "productId")
     private Long id;
 
-    @Column(name = "productName")
     private String name;
 }
