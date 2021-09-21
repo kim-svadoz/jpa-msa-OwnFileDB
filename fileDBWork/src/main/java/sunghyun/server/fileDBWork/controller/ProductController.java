@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     /*
-     * 제품 조회
+     * 특정 제품 조회
      */
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
@@ -36,11 +36,28 @@ public class ProductController {
     }
 
     /*
-     * 목록 추가
+     * 제품 추가
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto product) {
         return productService.create(product);
+    }
+
+    /*
+     * 제품 수정
+     */
+    @PutMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<ProductResponseDto> updateProduct(@RequestBody ProductRequestDto product) {
+        return productService.update(product);
+    }
+
+    /*
+     * 제품 삭제
+     */
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable Long id) {
+        return productService.delete(id);
     }
 }
