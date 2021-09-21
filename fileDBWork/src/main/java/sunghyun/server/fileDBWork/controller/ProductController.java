@@ -20,19 +20,19 @@ public class ProductController {
     private final ProductService productService;
 
     /*
-     * 전체목록 조회
-     */
-    @GetMapping
-    public ResponseEntity<List<Product>> getProductsByPagination(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) {
-        return productService.getProductListPage(pageNo, pageSize);
-    }
-
-    /*
      * 특정 제품 조회
      */
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
         return productService.findById(id);
+    }
+
+    /*
+     * 전체목록 조회
+     */
+    @GetMapping
+    public ResponseEntity<List<Product>> getProductsByPagination(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) {
+        return productService.getProductListPage(pageNo, pageSize);
     }
 
     /*
