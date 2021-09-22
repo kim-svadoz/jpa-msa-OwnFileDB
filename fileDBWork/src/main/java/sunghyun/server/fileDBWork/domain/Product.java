@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Builder
-@Accessors(chain = true)
+//@Accessors(chain = true)
 @ApiModel(description = "제품 상세 정보를 위한 도메인 객체")
 public class Product {
 
