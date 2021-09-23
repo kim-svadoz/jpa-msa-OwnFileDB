@@ -17,20 +17,20 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     // ExceptionHandler로 사용될 것임을 알려준다.
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        ExceptionResponse exceptionResponse =
-                new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-
         // 일반화되어 있는 에러는 500번 에러이기 때문에 INTERNAL_SERVER_ERROR로 지정 한다.
-        return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ExceptionResponse.builder()
+                .timestamp(new Date())
+                .message(ex.getMessage())
+                .details(request.getDescription(false)).build());
 
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     public final ResponseEntity<Object> handleProductNotFoundExceptions(Exception ex, WebRequest request) {
-        ExceptionResponse exceptionResponse =
-                new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-
-        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ExceptionResponse.builder()
+                .timestamp(new Date())
+                .message(ex.getMessage())
+                .details(request.getDescription(false)).build());
 
     }
 }

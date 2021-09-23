@@ -39,7 +39,6 @@ public class ProductController {
      * 제품 추가
      */
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto product) {
         return productService.create(product);
     }
@@ -48,7 +47,6 @@ public class ProductController {
      * 제품 수정
      */
     @PutMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProductResponseDto> updateProduct(@RequestBody ProductRequestDto product) {
         return productService.update(product);
     }

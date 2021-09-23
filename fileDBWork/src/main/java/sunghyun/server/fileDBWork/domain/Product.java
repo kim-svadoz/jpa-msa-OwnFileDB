@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -21,7 +22,10 @@ import javax.persistence.*;
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    //@GenericGenerator(name = "native", strategy = "native")
+    //@Column(updatable = false, nullable = false)
     private Long id;
 
     @ApiModelProperty(notes = "제품 이름을 입력해 주세요.")

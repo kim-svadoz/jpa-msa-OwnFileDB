@@ -35,8 +35,8 @@ public class ProductService {
     public ResponseEntity<List<Product>> getProductListPage(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("id").ascending());
         Page page = productRepository.findAll(pageable);
-        List<Product> products = page.getContent();
-        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(page.getContent());
 
         /*
         if (productDtoPage.hasContent()) {
@@ -56,7 +56,6 @@ public class ProductService {
     public ResponseEntity<ProductResponseDto> create(ProductRequestDto product) {
         Product newProduct = productRepository.save(Product.builder()
                 .name(product.getName()).build());
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ProductResponseDto.builder()
