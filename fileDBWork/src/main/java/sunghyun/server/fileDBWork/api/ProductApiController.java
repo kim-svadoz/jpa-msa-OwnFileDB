@@ -1,4 +1,4 @@
-package sunghyun.server.fileDBWork.controller;
+package sunghyun.server.fileDBWork.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,8 +14,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ProductController {
+@RequestMapping(value = "/api/products", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ProductApiController {
 
     private final ProductService productService;
 

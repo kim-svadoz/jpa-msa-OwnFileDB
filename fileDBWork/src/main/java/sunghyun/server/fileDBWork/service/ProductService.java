@@ -37,20 +37,6 @@ public class ProductService {
         Page page = productRepository.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(page.getContent());
-
-        /*
-        if (productDtoPage.hasContent()) {
-            List<Product> productList = productDtoPage.getContent();
-            final int start = (int)paging.getOffset();
-            final int end = Math.min((start + paging.getPageSize()), productList.size());
-            final Page<Product> page = new PageImpl<>(productList.subList(start, end), paging, productList.size());
-
-            return page.getContent().stream().
-                    map(product -> ResponseEntity
-                            .status(HttpStatus.OK)
-                            .body(ProductDto.builder().build())).collect(Collectors.toList());
-        }
-         */
     }
 
     public ResponseEntity<ProductResponseDto> create(ProductRequestDto product) {

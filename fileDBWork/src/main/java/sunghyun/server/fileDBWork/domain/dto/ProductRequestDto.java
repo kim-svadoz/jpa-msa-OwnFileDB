@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
-//@Accessors(chain = true)
 @Builder
 public class ProductRequestDto {
     private Long id;

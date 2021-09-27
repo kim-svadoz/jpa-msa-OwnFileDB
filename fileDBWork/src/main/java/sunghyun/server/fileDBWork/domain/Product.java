@@ -17,15 +17,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Builder
-//@Accessors(chain = true)
 @ApiModel(description = "제품 상세 정보를 위한 도메인 객체")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    //@GenericGenerator(name = "native", strategy = "native")
-    //@Column(updatable = false, nullable = false)
     private Long id;
 
     @ApiModelProperty(notes = "제품 이름을 입력해 주세요.")
