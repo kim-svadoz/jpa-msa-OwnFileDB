@@ -1,12 +1,12 @@
 package sunghyun.server.fileDBWork.domain.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ProductListResponseDto {
     List<ProductResponseDto> list;

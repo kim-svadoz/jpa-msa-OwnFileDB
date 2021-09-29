@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sunghyun.server.fileDBWork.domain.Product;
+import sunghyun.server.fileDBWork.domain.dto.ProductCreateRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductListResponseDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductResponseDto;
@@ -40,7 +41,7 @@ public class ProductApiController {
      * 제품 추가
      */
     @PostMapping
-    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto product) {
+    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductCreateRequestDto product) {
         return productService.create(product);
     }
 

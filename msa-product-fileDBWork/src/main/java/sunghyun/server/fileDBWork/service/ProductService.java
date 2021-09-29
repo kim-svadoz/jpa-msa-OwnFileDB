@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sunghyun.server.fileDBWork.domain.Product;
+import sunghyun.server.fileDBWork.domain.dto.ProductCreateRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductResponseDto;
 import sunghyun.server.fileDBWork.exception.ProductNotFoundException;
@@ -39,7 +40,7 @@ public class ProductService {
                 .body(page.getContent());
     }
 
-    public ResponseEntity<ProductResponseDto> create(ProductRequestDto product) {
+    public ResponseEntity<ProductResponseDto> create(ProductCreateRequestDto product) {
         Product newProduct = productRepository.save(Product.builder()
                 .name(product.getName()).build());
         return ResponseEntity
