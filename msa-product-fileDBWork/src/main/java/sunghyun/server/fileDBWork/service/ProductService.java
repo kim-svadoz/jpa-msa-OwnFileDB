@@ -26,47 +26,44 @@ public class ProductService {
 
     private final ModelMapper modelMapper;
 
-    public ResponseEntity<ProductResponseDto> findById(Long id) {
-        Optional<Product> findProduct = productRepository.findById(id);
-        return findProduct.map(product -> ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(ProductResponseDto.of(product, modelMapper)))
-                .orElseThrow(() -> new ProductNotFoundException(String.format("ID[%s] not found", id)));
+    public ProductResponseDto read(Long id) {
+        Optional<Product> byId = productRepository.findById(id);
+        byId.orElseThrow(() -> new ProductNotFoundException(String.format("ID[%s] not found", id)));
+
+        return ProductResponseDto.of(byId.get(), modelMapper);
     }
 
-    public ResponseEntity<List<Product>> getProductListPage(int pageNo, int pageSize) {
+    public List<Product> getProductListPage(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("id").ascending());
         Page page = productRepository.findAll(pageable);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(page.getContent());
+
+        return page.getContent();
     }
 
-    public ResponseEntity<ProductResponseDto> create(ProductCreateRequestDto productCreateRequestDto) {
-        Product newProduct = productRepository.save(ProductCreateRequestDto.toEntity(productCreateRequestDto, modelMapper));
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(ProductResponseDto.of(newProduct, modelMapper));
+    public ProductResponseDto create(ProductCreateRequestDto productCreateRequestDto) {
+        Product product = ProductCreateRequestDto.toEntity(productCreateRequestDto, modelMapper);
+        productRepository.save(product);
+
+        return ProductResponseDto.of(product, modelMapper);
     }
 
-    public ResponseEntity<ProductResponseDto> update(ProductRequestDto productRequestDto) {
+    public ProductResponseDto update(ProductRequestDto productRequestDto) {
         Optional<Product> updateProduct = productRepository.findById(productRequestDto.getId());
-        return updateProduct.map(product -> {
-            product.setName(productRequestDto.getName());
-            productRepository.save(product);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(ProductResponseDto.of(product, modelMapper));
+        updateProduct.orElseThrow(() -> new ProductNotFoundException(String.format("ID[%s] not found", productRequestDto.getId())));
 
-        }).orElseThrow(() -> new ProductNotFoundException(String.format("ID[%s] not found", productRequestDto.getId())));
+        Product product = updateProduct.get();
+        product.setName(productRequestDto.getName());
+        productRepository.save(product);
+
+        return ProductResponseDto.of(product, modelMapper);
     }
 
-    public ResponseEntity<HttpStatus> delete(Long id) {
+    public HttpStatus delete(Long id) {
         Optional<Product> deleteProduct = productRepository.findById(id);
-
         deleteProduct.orElseThrow(() -> new ProductNotFoundException(String.format("ID[%s] not found", id)));
 
         productRepository.deleteById(deleteProduct.get().getId());
-        return ResponseEntity.ok().build();
+
+        return HttpStatus.OK;
     }
 }

@@ -26,7 +26,8 @@ public class ProductApiController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
-        return productService.findById(id);
+        ProductResponseDto responseDto = productService.read(id);
+        return new ResponseEntity<ProductResponseDto>(responseDto, HttpStatus.OK);
     }
 
     /*
@@ -34,7 +35,8 @@ public class ProductApiController {
      */
     @GetMapping
     public ResponseEntity<List<Product>> getProductsByPagination(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) {
-        return productService.getProductListPage(pageNo, pageSize);
+        List<Product> productListPage = productService.getProductListPage(pageNo, pageSize);
+        return new ResponseEntity<List<Product>>(productListPage, HttpStatus.OK);
     }
 
     /*
@@ -42,7 +44,8 @@ public class ProductApiController {
      */
     @PostMapping
     public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductCreateRequestDto product) {
-        return productService.create(product);
+        ProductResponseDto responseDto = productService.create(product);
+        return new ResponseEntity<ProductResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
     /*
@@ -50,7 +53,8 @@ public class ProductApiController {
      */
     @PutMapping
     public ResponseEntity<ProductResponseDto> updateProduct(@RequestBody ProductRequestDto product) {
-        return productService.update(product);
+        ProductResponseDto responseDto = productService.update(product);
+        return new ResponseEntity<ProductResponseDto>(responseDto, HttpStatus.OK);
     }
 
     /*
@@ -58,6 +62,7 @@ public class ProductApiController {
      */
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteProduct(@PathVariable Long id) {
-        return productService.delete(id);
+        HttpStatus status = productService.delete(id);
+        return new ResponseEntity<>(status);
     }
 }
