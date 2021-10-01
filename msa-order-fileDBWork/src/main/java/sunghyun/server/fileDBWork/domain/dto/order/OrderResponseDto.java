@@ -1,14 +1,11 @@
-package sunghyun.server.fileDBWork.domain.dto;
+package sunghyun.server.fileDBWork.domain.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
-import sunghyun.server.fileDBWork.domain.Order;
-import sunghyun.server.fileDBWork.domain.OrderItem;
+import sunghyun.server.fileDBWork.domain.dto.orderitem.OrderItemResponseDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

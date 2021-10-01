@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import sunghyun.server.fileDBWork.domain.Order;
-import sunghyun.server.fileDBWork.domain.dto.OrderItemRequestDto;
-import sunghyun.server.fileDBWork.domain.dto.OrderRequestDto;
+import sunghyun.server.fileDBWork.domain.dto.orderitem.OrderItemRequestDto;
+import sunghyun.server.fileDBWork.domain.dto.order.OrderRequestDto;
 import sunghyun.server.fileDBWork.repository.OrderRepository;
 
 
@@ -34,7 +34,7 @@ public class OrderServiceTest {
 
         OrderItemRequestDto orderItemRequestDto = new OrderItemRequestDto();
         orderItemRequestDto.setId((long) 1);
-        orderItemRequestDto.setProdcutId((long) 2);
+        orderItemRequestDto.setProductId((long) 2);
 
         orderItemList.add(orderItemRequestDto);
 

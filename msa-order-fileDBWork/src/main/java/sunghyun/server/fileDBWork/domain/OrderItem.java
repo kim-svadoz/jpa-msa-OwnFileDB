@@ -1,20 +1,16 @@
 package sunghyun.server.fileDBWork.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import sunghyun.server.fileDBWork.domain.dto.OrderItemResponseDto;
-import sunghyun.server.fileDBWork.domain.dto.OrderResponseDto;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Builder
+@AllArgsConstructor
 public class OrderItem implements Serializable {
 
     @Id

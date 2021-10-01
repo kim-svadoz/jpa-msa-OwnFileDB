@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sunghyun.server.fileDBWork.domain.dto.OrderItemResponseDto;
-import sunghyun.server.fileDBWork.domain.dto.OrderResponseDto;
+import sunghyun.server.fileDBWork.domain.dto.orderitem.OrderItemResponseDto;
+import sunghyun.server.fileDBWork.domain.dto.order.OrderResponseDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -44,14 +44,14 @@ public class Order {
         orderItem.setOrder(this);
     }
 
-    /*
-     * 주문 생성 메서드
-     */
-    public static Order createOrder(OrderItem... orderItems) {
-        Order order = new Order();
-        for (OrderItem orderItem : orderItems) {
-            order.addOrderItem(orderItem);
-        }
-        return order;
+
+    public OrderResponseDto of() {
+        return OrderResponseDto.builder()
+                .id(this.id)
+                .orderItemList(this.orderItems.stream()
+                    .map(orderItem -> OrderItemResponseDto.builder()
+                        .id(orderItem.getId())
+                        .productId(orderItem.getProductId()).build())
+                    .collect(Collectors.toList())).build();
     }
 }

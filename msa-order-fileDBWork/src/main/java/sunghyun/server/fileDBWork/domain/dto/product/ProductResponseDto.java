@@ -1,4 +1,4 @@
-package sunghyun.server.fileDBWork.domain.dto;
+package sunghyun.server.fileDBWork.domain.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
