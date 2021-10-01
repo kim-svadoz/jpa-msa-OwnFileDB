@@ -4,17 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sunghyun.server.fileDBWork.domain.OrderItem;
+import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderRequestDto {
-    private Long id;
-
-    private List<OrderItemRequestDto> orderItemList;
+public class ProductListResponseDto {
+    private List<ProductResponseDto> list;
 }

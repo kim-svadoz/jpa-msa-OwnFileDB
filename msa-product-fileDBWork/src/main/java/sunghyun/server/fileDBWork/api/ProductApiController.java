@@ -1,6 +1,7 @@
 package sunghyun.server.fileDBWork.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +13,15 @@ import sunghyun.server.fileDBWork.domain.dto.ProductRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductResponseDto;
 import sunghyun.server.fileDBWork.service.ProductService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/products", produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
 public class ProductApiController {
 
     private final ProductService productService;
@@ -64,5 +69,28 @@ public class ProductApiController {
     public ResponseEntity<HttpStatus> deleteProduct(@PathVariable Long id) {
         HttpStatus status = productService.delete(id);
         return new ResponseEntity<>(status);
+    }
+
+    /*
+     * OrderApplication에서 사용 - 상품의 전체 목록 조회
+     */
+    @GetMapping("/lists")
+    public ResponseEntity<ProductListResponseDto> getProductList() {
+        ProductListResponseDto productList = productService.getProductList();
+        return new ResponseEntity<ProductListResponseDto>(productList, HttpStatus.OK);
+    }
+
+    /*
+     * OrderApplication에서 사용 - 클라이언트가 요청한 id에 대한 상품 조회
+     */
+    @GetMapping("/list")
+    public ResponseEntity<ProductListResponseDto> getProductListByIds(@RequestParam("ids") String ids) {
+        List<Long> productList = new ArrayList<>(Arrays.asList(ids.split(",")))
+                    .stream()
+                    .map(Long::parseLong)
+                    .collect(Collectors.toList());
+
+        ProductListResponseDto productListByIds = productService.getProductListByIds(productList);
+        return new ResponseEntity<ProductListResponseDto>(productListByIds, HttpStatus.OK);
     }
 }

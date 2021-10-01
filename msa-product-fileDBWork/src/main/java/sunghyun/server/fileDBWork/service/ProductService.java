@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sunghyun.server.fileDBWork.domain.Product;
 import sunghyun.server.fileDBWork.domain.dto.ProductCreateRequestDto;
+import sunghyun.server.fileDBWork.domain.dto.ProductListResponseDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductResponseDto;
 import sunghyun.server.fileDBWork.exception.ProductNotFoundException;
@@ -17,6 +18,7 @@ import sunghyun.server.fileDBWork.repository.ProductRepository;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -65,5 +67,27 @@ public class ProductService {
         productRepository.deleteById(deleteProduct.get().getId());
 
         return HttpStatus.OK;
+    }
+
+    public ProductListResponseDto getProductList() {
+        List<Product> productList = productRepository.findAll();
+
+        return ProductListResponseDto.builder()
+                .list(productList.stream().map(product ->
+                        ProductResponseDto.builder()
+                                .id(product.getId())
+                                .name(product.getName()).build())
+                        .collect(Collectors.toList())).build();
+    }
+
+    public ProductListResponseDto getProductListByIds(List<Long> list) {
+        List<Product> byProductIds = productRepository.findByProductIds(list);
+
+        return ProductListResponseDto.builder()
+                .list(byProductIds.stream().map(product ->
+                        ProductResponseDto.builder()
+                                .id(product.getId())
+                                .name(product.getName()).build())
+                        .collect(Collectors.toList())).build();
     }
 }

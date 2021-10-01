@@ -4,15 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 import sunghyun.server.fileDBWork.domain.Order;
-import sunghyun.server.fileDBWork.domain.Product;
+import sunghyun.server.fileDBWork.domain.OrderItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderItemRequestDto {
+public class OrderResponseDto {
     private Long id;
 
-    private Long prodcutId;
+    private List<OrderItemResponseDto> orderItemList;
 }
