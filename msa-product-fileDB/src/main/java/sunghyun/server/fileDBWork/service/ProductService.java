@@ -3,42 +3,38 @@ package sunghyun.server.fileDBWork.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import sunghyun.server.fileDBWork.config.CollectionConfig;
 import sunghyun.server.fileDBWork.domain.dto.ProductCreateRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductListResponseDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductResponseDto;
+import sunghyun.server.fileDBWork.domain.vo.CustomFile;
 import sunghyun.server.fileDBWork.exception.ProductNotFoundException;
-import sunghyun.server.fileDBWork.repository.FileProductRepository;
+import sunghyun.server.fileDBWork.repository.ProductRepository;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FileProductService {
+public class ProductService {
     private final HashMap<Long, Long> keyMap;
 
     private final File f;
+    private final ProductRepository productRepository;
     //private final RandomAccessFile raf;
 
     /*
      * File 조회
      */
     public ProductResponseDto read(Long id) throws IOException {
-        String pNum = id + "";
-        String path = f.getPath() + "/" + pNum;
-        File findFile = new File(path);
-        if (!findFile.exists()) {
+        File folder = productRepository.findFolderById(id);
+        if (!folder.exists()) {
             throw new ProductNotFoundException(String.format("ID[%s] not found", id));
         }
 
-        RandomAccessFile raf = new RandomAccessFile(findFile+"/name.txt", "r");
+        RandomAccessFile raf = new RandomAccessFile(folder+"/name.txt", "r");
         if (raf.length() == 0) {
             throw new ProductNotFoundException(String.format("ID[%s] not found", id));
         }
@@ -56,20 +52,13 @@ public class FileProductService {
      */
     public ProductResponseDto create(ProductCreateRequestDto requestDto) throws IOException {
         String name = requestDto.getName();
-        String[] list = f.list();
 
-        String pNum = list.length == 0 ? 1 + "" : (Integer.parseInt(list[list.length - 1]) + 1) + "";
-        String productPath = f.getPath() + "/" + pNum;
-        File productFolder = new File(productPath);
-        if (!productFolder.exists()) {
-            productFolder.mkdir();
-        }
-
-        RandomAccessFile raf = new RandomAccessFile(productFolder+"/name.txt", "rw");
+        CustomFile customFile = productRepository.save();
+        RandomAccessFile raf = new RandomAccessFile(customFile.getFile()+"/name.txt", "rw");
         raf.write(name.getBytes());
 
         return ProductResponseDto.builder()
-                .id(Long.parseLong(pNum))
+                .id(customFile.getIndex())
                 .name(requestDto.getName()).build();
     }
 
@@ -79,14 +68,13 @@ public class FileProductService {
     public ProductResponseDto update(ProductRequestDto requestDto) throws IOException {
         long id = requestDto.getId();
         String name = requestDto.getName();
-        String pNum = requestDto.getId() + "";
-        String path = f.getPath() + "/" + pNum;
-        File findFile = new File(path);
-        if (!findFile.exists()) {
+
+        File folder = productRepository.findFolderById(id);
+        if (!folder.exists()) {
             throw new ProductNotFoundException(String.format("ID[%s] not found", id));
         }
 
-        RandomAccessFile raf = new RandomAccessFile(findFile+"/name.txt", "rw");
+        RandomAccessFile raf = new RandomAccessFile(folder+"/name.txt", "rw");
         if (raf.length() == 0) {
             throw new ProductNotFoundException(String.format("ID[%s] not found", id));
         }
@@ -105,14 +93,16 @@ public class FileProductService {
      * File 삭제
      */
     public HttpStatus delete(Long id) throws IOException {
-        String pNum = id + "";
-        String path = f.getPath() + "/" + pNum;
-        File findFile = new File(path);
-        if (!findFile.exists()) {
+        File folder = productRepository.findFolderById(id);
+        if (!folder.exists()) {
             throw new ProductNotFoundException(String.format("ID[%s] not found", id));
         }
 
-        RandomAccessFile raf = new RandomAccessFile(findFile+"/name.txt", "rw");
+        RandomAccessFile raf = new RandomAccessFile(folder+"/name.txt", "rw");
+        if (raf.length() == 0) {
+            throw new ProductNotFoundException(String.format("ID[%s] not found", id));
+        }
+
         raf.setLength(0);
 
         return HttpStatus.OK;
@@ -128,18 +118,26 @@ public class FileProductService {
         List<ProductResponseDto> productResponseDtos = new ArrayList<>();
 
         for (String num : flist) {
-            String pNum = num + "";
-            String path = f.getPath() + "/" + pNum;
-            File findFile = new File(path);
-
-            raf = new RandomAccessFile(findFile+"/name.txt", "r");
-            raf.seek(0);
             long id = Long.parseLong(num);
+
+            File folder = productRepository.findFolderById(id);
+            raf = new RandomAccessFile(folder+"/name.txt", "r");
+            raf.seek(0);
+
             String name = raf.readLine();
             if (name == null || name.length() == 0) continue;
 
             productResponseDtos.add(new ProductResponseDto(id, name));
         }
+        Collections.sort(productResponseDtos, new Comparator<ProductResponseDto>() {
+            @Override
+            public int compare(ProductResponseDto o1, ProductResponseDto o2) {
+                if (o1.getId() - o2.getId() > 0) {
+                    return 1;
+                }
+                return -1;
+            }
+        });
 
         return ProductListResponseDto.builder()
                 .list(productResponseDtos).build();

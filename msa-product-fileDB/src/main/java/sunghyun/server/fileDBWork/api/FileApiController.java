@@ -1,8 +1,6 @@
 package sunghyun.server.fileDBWork.api;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,17 +9,16 @@ import sunghyun.server.fileDBWork.domain.dto.ProductCreateRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductListResponseDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.ProductResponseDto;
-import sunghyun.server.fileDBWork.service.FileProductService;
+import sunghyun.server.fileDBWork.service.ProductService;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/products", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FileApiController {
 
-    private final FileProductService fileProductService;
+    private final ProductService fileProductService;
 
     /*
      * File 조회
