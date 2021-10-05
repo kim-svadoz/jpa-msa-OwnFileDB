@@ -12,6 +12,8 @@ import sunghyun.server.fileDBWork.domain.dto.order.OrderResponseDto;
 import sunghyun.server.fileDBWork.domain.dto.product.ProductListResponseDto;
 import sunghyun.server.fileDBWork.service.OrderService;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/orders", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,38 +31,39 @@ public class OrderApiController {
     }
 
     /*
-     * 주문 LIST 조회
-     */
-    @GetMapping
-    public ResponseEntity<OrderListResponseDto> getOrders() {
-        OrderListResponseDto orderList = orderService.getOrderList();
-        return new ResponseEntity<OrderListResponseDto>(orderList, HttpStatus.OK);
-    }
-
-    /*
      * 주문 생성
      */
     @PostMapping
-    public ResponseEntity<OrderResponseDto> orderProduct(@RequestBody OrderRequestDto orderRequestDto) {
+    public ResponseEntity<OrderResponseDto> orderProduct(@RequestBody OrderRequestDto orderRequestDto) throws IOException {
         OrderResponseDto createOrder = orderService.create(orderRequestDto);
         return new ResponseEntity<OrderResponseDto>(createOrder, HttpStatus.OK);
     }
 
     /*
-     * 특정 주문에서 주문 수량 변경
+     * 주문 수정
      */
     @PutMapping
-    public ResponseEntity<OrderResponseDto> changeOrder(@RequestBody OrderRequestDto orderRequestDto) {
-        OrderResponseDto updateOrder = orderService.update(orderRequestDto);
-        return new ResponseEntity<OrderResponseDto>(updateOrder, HttpStatus.OK);
+    public ResponseEntity<OrderResponseDto> changeOrder(@RequestBody OrderRequestDto orderRequestDto) throws IOException {
+        OrderResponseDto changeOrder = orderService.update(orderRequestDto);
+        return new ResponseEntity<OrderResponseDto>(changeOrder, HttpStatus.OK);
     }
 
     /*
      * 특정 주문 삭제
      */
     @DeleteMapping
-    public ResponseEntity<HttpStatus> deleteOrder(Long id) {
+    public ResponseEntity<HttpStatus> delete(Long id) throws IOException {
         HttpStatus status = orderService.delete(id);
         return new ResponseEntity<>(status);
     }
+
+    /*
+     * 주문 LIST 조회
+     */
+    @GetMapping
+    public ResponseEntity<OrderListResponseDto> getOrderList() throws IOException {
+        OrderListResponseDto orderList = orderService.getOrderList();
+        return new ResponseEntity<OrderListResponseDto>(orderList, HttpStatus.OK);
+    }
+
 }

@@ -3,13 +3,11 @@ package sunghyun.server.fileDBWork.repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import sunghyun.server.fileDBWork.domain.Product;
 import sunghyun.server.fileDBWork.domain.vo.CustomFile;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.OptionalLong;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Repository
@@ -25,7 +23,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public CustomFile save() {
+    public CustomFile createNextDir() {
         String[] list = f.list();
         OptionalLong max = Arrays.stream(list).mapToLong(Long::parseLong).max();
 

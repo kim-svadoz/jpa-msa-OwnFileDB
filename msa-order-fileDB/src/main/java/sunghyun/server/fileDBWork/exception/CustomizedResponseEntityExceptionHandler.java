@@ -23,7 +23,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     }
 
-    @ExceptionHandler(ProductNotFoundException.class)
+    @ExceptionHandler(OrderNotFoundException.class)
     public final ResponseEntity<Object> handleProductNotFoundExceptions(Exception ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ExceptionResponse.builder()
                 .timestamp(new Date())

@@ -14,5 +14,5 @@ import java.util.List;
 @Builder
 public class OrderListResponseDto {
 
-    private List<Order> orderList;
+    private List<OrderResponseDto> list;
 }

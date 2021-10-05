@@ -2,14 +2,13 @@ package sunghyun.server.fileDBWork.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
-import javax.annotation.PreDestroy;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 @Configuration
 public class FileConfig {
-    private final String path = "src/main/resources/product";
+    private final String path = "src/main/resources/order";
 
     @Bean
     public File file() throws IOException {

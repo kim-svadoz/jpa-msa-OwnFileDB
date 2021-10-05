@@ -12,6 +12,10 @@ import sunghyun.server.fileDBWork.domain.dto.ProductResponseDto;
 import sunghyun.server.fileDBWork.service.ProductService;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,6 +67,19 @@ public class FileApiController {
     public ResponseEntity<ProductListResponseDto> getProductList() throws IOException {
         ProductListResponseDto productList = fileProductService.getProductList();
         return new ResponseEntity<ProductListResponseDto>(productList, HttpStatus.OK);
+    }
 
+    /*
+     * OrderApplication에서 사용 - 클라이언트가 요청한 id에 대한 상품 조회
+     */
+    @GetMapping("/list")
+    public ResponseEntity<ProductListResponseDto> getProductListByIds(@RequestParam("ids") String ids) throws IOException {
+        List<Long> productList = new ArrayList<>(Arrays.asList(ids.split(",")))
+                .stream()
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+
+        ProductListResponseDto productListByIds = fileProductService.getProductListByIds(productList);
+        return new ResponseEntity<ProductListResponseDto>(productListByIds, HttpStatus.OK);
     }
 }
