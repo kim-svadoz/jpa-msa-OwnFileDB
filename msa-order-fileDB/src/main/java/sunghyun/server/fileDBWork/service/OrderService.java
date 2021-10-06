@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import sunghyun.server.fileDBWork.domain.Order;
-import sunghyun.server.fileDBWork.domain.OrderItem;
+import sunghyun.server.fileDBWork.domain.entity.Order;
 import sunghyun.server.fileDBWork.domain.dto.order.OrderListResponseDto;
 import sunghyun.server.fileDBWork.domain.dto.orderitem.OrderItemRequestDto;
 import sunghyun.server.fileDBWork.domain.dto.order.OrderRequestDto;
@@ -120,7 +119,6 @@ public class OrderService {
 
         List<OrderResponseDto> orderResponseDtos = new ArrayList<>();
 
-        //long totalCnt = 1;
         for (String num : flist) {
             long id = Long.parseLong(num);
 
@@ -175,7 +173,7 @@ public class OrderService {
                 .fromHttpUrl(url)
                 .path("/list")
                 .queryParam("ids", ids)
-                .build(false);
+                .build(true);
 
         ProductListResponseDto forObject = restTemplate.getForObject(uri.toString()
                 , ProductListResponseDto.class);

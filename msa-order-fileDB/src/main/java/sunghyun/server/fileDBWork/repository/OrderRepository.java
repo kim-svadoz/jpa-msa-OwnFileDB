@@ -1,9 +1,7 @@
 package sunghyun.server.fileDBWork.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import sunghyun.server.fileDBWork.domain.Order;
-import sunghyun.server.fileDBWork.domain.dto.order.OrderRequestDto;
+import sunghyun.server.fileDBWork.domain.entity.Order;
 import sunghyun.server.fileDBWork.domain.vo.CustomFile;
 
 import java.io.File;

@@ -2,9 +2,8 @@ package sunghyun.server.fileDBWork.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import sunghyun.server.fileDBWork.domain.Order;
-import sunghyun.server.fileDBWork.domain.OrderItem;
-import sunghyun.server.fileDBWork.domain.dto.orderitem.OrderItemRequestDto;
+import sunghyun.server.fileDBWork.domain.entity.Order;
+import sunghyun.server.fileDBWork.domain.entity.OrderItem;
 import sunghyun.server.fileDBWork.domain.vo.CustomFile;
 import sunghyun.server.fileDBWork.exception.OrderNotFoundException;
 
@@ -14,8 +13,6 @@ import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalLong;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor

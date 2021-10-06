@@ -1,27 +1,19 @@
-package sunghyun.server.fileDBWork.domain;
+package sunghyun.server.fileDBWork.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
 @Builder
 @AllArgsConstructor
 public class OrderItem implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long productId;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
     private Order order;
 
     /*
