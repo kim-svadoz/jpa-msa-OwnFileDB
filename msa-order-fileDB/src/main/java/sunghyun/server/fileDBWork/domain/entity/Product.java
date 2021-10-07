@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @ApiModel(description = "제품 상세 정보를 위한 도메인 객체")
-public class Product implements Serializable {
+public class Product {
 
     private Long id;
 

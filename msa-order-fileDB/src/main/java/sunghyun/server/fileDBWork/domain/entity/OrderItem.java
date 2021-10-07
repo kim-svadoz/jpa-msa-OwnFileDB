@@ -8,7 +8,7 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class OrderItem implements Serializable {
+public class OrderItem {
 
     private Long id;
 
